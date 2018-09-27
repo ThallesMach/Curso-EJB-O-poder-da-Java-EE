@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import br.com.caelum.livraria.modelo.Autor;
 
@@ -15,7 +18,8 @@ import br.com.caelum.livraria.modelo.Autor;
 			 * */
 public class AutorDao {
 
-	private Banco banco = new Banco();
+	@PersistenceContext
+	private EntityManager manager;	//private Banco banco = new Banco();
 	
 	@PostConstruct  // tbm é conhecido Callback 
 	void aposCriacao() {
@@ -31,17 +35,17 @@ public class AutorDao {
 //			e.printStackTrace();
 //		} 
 		
-		banco.save(autor);
+		manager.persist(autor); //	banco.save(autor);
 		
 		System.out.println("Salvou Autor "+ autor.getNome() );
 	}
 	
 	public List<Autor> todosAutores() {
-		return banco.listaAutores();
+		return	manager.createQuery("select a from Autor a", Autor.class).getResultList();	// banco.listaAutores();
 	}
 
 	public Autor buscaPelaId(Integer autorId) {
-		Autor autor = this.banco.buscaPelaId(autorId);
+		Autor autor = this.manager.find(Autor.class, autorId); // this.banco.buscaPelaId(autorId);
 		return autor;
 	}
 	
