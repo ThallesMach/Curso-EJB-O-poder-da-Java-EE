@@ -2,6 +2,7 @@ package br.com.caelum.livraria.bean;
 
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 
@@ -11,6 +12,7 @@ import br.com.caelum.livraria.modelo.Autor;
 import br.com.caelum.livraria.modelo.Livro;
 
 @Model
+@RequestScoped
 public class LivroBean {
 	
 	private Livro livro = new Livro();
